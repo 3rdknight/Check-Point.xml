@@ -1,0 +1,217 @@
+<?xml version=”1.0”?>
+<map proto=”1.4.0”>
+<name>Check-Point</name>
+<version>1.0.0</version>
+<objective>Capture more flags than the enemy!</objective>
+<edition>tournament</edition>
+<gamemode>koth</gamemode>
+<gamemode>ctf</gamemode>
+
+<timelock>on</timelock>
+
+<authors>
+	<author uuid=”d31e22be-a729-417f-967e-3636c19e0909”/> <!-- ThirdKnight -->
+</authors>
+
+<teams>
+	<team id="red-team" overhead-color="c" color="dark red" max="5">Red</team>
+	<team id=”blue-team” overhead-color="9" color=”light blue” max=”5”>Blue</team>
+</teams>
+
+<kits>
+	<kit id="spawn" force="true">
+		<item slot=”0” material=”stone sword”/>
+		<item slot=”1” enchantment="power:1" material=”bow”/>
+  	<item slot="8" amount="15" material="arrow"/>
+  	<item slot="4" amount="32" material="bread"/>
+  	<chestplate material="chain chestplate"/>
+	</kit>
+	<kit id="red" parents="spawn">
+  	<helmet color="993333" material="leather helmet"/>
+	</kit>
+	<kit id="blue" parents="spawn">
+  	<helmet color="6699D8" material="leather helmet"/>
+	</kit>
+	<kit id="flag-kit" filter="flag-pickup"/>
+  	<chestplate enchantment="projectile protection:1" material="chain chestplate"/>
+  	<health>16</health>
+	</kit>
+
+<flags>
+	<flag id=”red-flag” name=”Red Flag” color=”red”
+		<post id=”red-flag-post” pick-up filter=”blue-only” yaw=”-90”>-67, 21, -37</post>
+  	<net post=”red-flag-post” region=”net” flag=”red-flag” capture-filter=”blue-control”>
+	</flag>
+	<flag id”blue-flag” name=”Blue Flag” color=”light_blue”>
+		<post id=”blue-flag-post” pick-up filter=”red-only” yaw=”90”>7, 21, -37</post>
+  	<net post=”blue-flag-post” region=”net” flag=”blue-flag” capture-filter”red-control”>
+	</flag>
+  <recover-time=”8s” respawn-speed=”15s” carry-message=”You are carrying the flag, capture it at the tower!” carry-kit=”flag-kit” points=”1”>
+</flags>
+
+<control-point>
+	<id=”tower”/>
+	<name=”Tower”/>
+  <capture-time=”8s”/>
+	<capture-rule=”exclusive”/>
+	<time-multiplier=”0.1”/>
+	<show-progress=”true”/>
+	<neutral-state=”true”/>
+	<incremental=”true”/>
+</control-point>
+
+<structures>
+	<dynamic structure=”blue-staircase” location=”-18, 23, -7”>
+		<filter>
+		<all>
+			<time>2m</time>
+			<objective id=”blue-team”>tower</objective>
+		</all>
+		</filter>
+		</dynamic>
+
+	<dynamic structure=”red-staircase” location="-36, 23, -7">
+		<filter>
+		<all>
+			<time>2m</time>
+			<objective id=”red-team”>tower</objective>
+		</all>
+		</filter>
+	</dynamic>
+
+	<dynamic structure=”blue-bridge” location=”-27, 21, -37”>
+		<filter>
+			<objective id=”blue-team”>tower</objective>
+		</filter>
+	</dynamic>
+
+<dynamic structure=”red-bridge” location=”-27, 21, -37”>
+	<filter>
+	<objective team=”red-team”>tower</objective>
+	</filter>
+</dynamic>
+
+	<dynamic structure=”red-tower” location=”-27, 21, -7”
+		<filter>
+			<objective team=”red-team”>tower</objective>
+		</filter>
+	</dynamic>
+
+	<dynamic structure=”blue-tower” location=”-27, 21, -7”
+		<filter>
+			<objective team=”blue-team”>tower</objective>
+		</filter>
+	</dynamic>
+
+	<structure id=”blue-bridge” air=”false” origin=”-134, 28, -29”>
+		<region>
+			<cuboid min=”-123, 25, -25” max=”-145, 31, -33”/>
+		</region>
+	</structure>
+
+	<structure id=”red-bridge” air=”false” origin=”-134, 28, -14”>
+		<region>
+			<cuboid min=”-123, 25, -10” max=”-145, 31, -18”/>
+		</region>
+	</structure>
+
+	<structure id=”blue-tower” air=”false” origin=”-94, 30, -19”>
+		<region>
+			<cuboid min=”-99, 30, -15” max=”-89, 27, -23”/>
+		</region>
+	</structure>
+
+	<structure id=”red-tower” air=”false” origin=”-94, 30, -7”>
+		<region>
+			<cuboid min=”-99, 30, -3” max=”-89, 27, -11”/>
+		</region>
+	</structure>
+
+	<structure id=”red-staircase” air=”false” origin=””-92, 34, 4””>
+		<region>
+			<cuboid min=”-96, 30, 5” max=”-89, 36, 3”/>
+		</region>
+	</structure>
+
+	<structure id=”blue-staircase” air=”false” origin=”-93, 34, 9”>
+		<region>
+			<cuboid min=”-96, 36, 10” max=”-89, 30, 8”/>
+		</region>
+	</structure>
+</structures>
+
+<damage>fall</damage>
+
+<kill-rewards>
+	<kill-reward>
+		<item amount="1" material="373:8197"
+	</kill-reward>
+
+	<kill-reward>
+		<item amount="5" material="arrow"
+	</kill-reward>
+</kill-rewards>
+
+<gamerules>
+    <doDaylightCycle>false</doDaylightCycle>
+</gamerules>
+
+<spawns>
+	<spawns>
+		<spawn team="blue-team" kit="blue" yaw="-180"/>-3, 33, 24</spawn>
+		<spawn team="red-team" kit="red" yaw="-180"/>-51, 33, 24</spawn>
+	</spawns>
+	<default yaw="-180"/>-27, 32, 35</default>
+	</spawns>
+
+	<respawn delay="5s"/>
+
+<filters>
+	<filter id="blue-control">
+		<objective team=”blue-team”>tower</objective>
+	</filter>
+	<filter id="red-control">
+		<objective team=”red-team”>tower</objective>
+	</filter>
+</filters>
+
+	<regions>
+	    <apply enter="only-red-team" message="You must capture the point first!">
+	        <region>
+	        	<cuboid id="net" min="-28, 28, -8" max="-26, 21, -6"/>
+	        </region>
+					<filter>
+						red-control
+					</filter>
+	    </apply>
+	</regions>
+
+	<regions>
+			<apply enter="only-blue-team" message="You must capture the point first!">
+					<region>
+						<cuboid id="net" min="-28, 28, -8" max="-26, 21, -6"/>
+					</region>
+					<filter>
+						blue-control
+					</filter>
+			</apply>
+	</regions>
+
+<apply block-break="never" block-place="never" message="You may not modify the map">
+    <region>
+      <cuboid id="map" min="-oo,-oo" max="oo,oo"/>
+    </region>
+</apply>
+
+<toolrepair>
+	<tool>stone sword</tool>
+	<tool>bow</tool>
+	<tool>leather helmet</tool>
+	<tool>chain chestplate</tool>
+</toolrepair>
+
+<itemremove>
+	<item>arrow</item>
+	<item>iron chestplate</item>
+	<item>bread</item>
+</itemremove>
